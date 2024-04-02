@@ -73,7 +73,7 @@ const Register = () => {
         <form className="space-y-6">
           <div>
             <label
-              htmlFor="email"
+              htmlFor="name"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Name
@@ -115,7 +115,7 @@ const Register = () => {
           <div>
             <div className="flex items-center justify-between">
               <label
-                htmlFor="password"
+                htmlFor="phone"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Phone

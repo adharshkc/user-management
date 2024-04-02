@@ -1,10 +1,48 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+
+  const handleClick = async (e)=>{
+    e.preventDefault()
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method:"POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+  
+      })
+      if(!response){
+        toast.error("Failed to Login")
+      }
+      const data = await response.json();
+      if(response.ok){
+        if(data.user === "admin"){
+          navigate("/admin")
+        }else{
+          navigate("/")
+        }
+      
+      }else{
+        toast.error(data.error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    
+  }
+  
   
   return (
     <div>
@@ -77,6 +115,7 @@ const Login = () => {
               <div>
                 <button
                   type="submit"
+                  onClick={handleClick}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign in
