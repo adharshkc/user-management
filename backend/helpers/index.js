@@ -36,4 +36,5 @@ const allUsers = async function(){
     }
 }
 
+
 module.exports = { findUser, createUser, allUsers };

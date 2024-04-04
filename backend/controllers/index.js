@@ -11,7 +11,7 @@ const registerUser = async function (req, res) {
     if (user) {
       return res.status(400).json({ error: "User already exists" });
     } else {
-      const newUser = createUser(req.body);
+      const newUser = await createUser(req.body);
       const token = generateToken(newUser);
       console.log(token);
       return res.status(200).json({ token, user: newUser.name });
@@ -55,4 +55,16 @@ const getAlUser = async function (req, res) {
     return res.status(400).json({ error: "Internal server error" });
   }
 };
-module.exports = { registerUser, loginUser, getAlUser };
+
+const addUser = async function(req, res){
+  try {
+    const data = req.body;
+    const user = await createUser(data)
+
+    return res.status(200).json({  message: "User added successfully" });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = { registerUser, loginUser, getAlUser, addUser };
