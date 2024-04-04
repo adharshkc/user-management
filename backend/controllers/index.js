@@ -1,4 +1,5 @@
 const User = require("../modals/user");
+const { findUser, createUser, allUsers } = require("../helpers/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/jwtUtils");
@@ -6,18 +7,11 @@ const { generateToken } = require("../utils/jwtUtils");
 const registerUser = async function (req, res) {
   try {
     const { name, email, phone, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await findUser(email);
     if (user) {
       return res.status(400).json({ error: "User already exists" });
     } else {
-      const salt = 10;
-      const hashedPassword = await bcrypt.hash(password, salt);
-      const newUser = await User.create({
-        name: name,
-        email: email,
-        phone: phone,
-        password: hashedPassword,
-      });
+      const newUser = createUser(req.body);
       const token = generateToken(newUser);
       console.log(token);
       return res.status(200).json({ token, user: newUser.name });
@@ -30,7 +24,7 @@ const registerUser = async function (req, res) {
 const loginUser = async function (req, res) {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    const user = await findUser(email);
     if (!user) {
       return res.status(400).json({ error: "Invalid user" });
     } else {
@@ -51,4 +45,14 @@ const loginUser = async function (req, res) {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getAlUser = async function (req, res) {
+  try {
+    
+    const users = await allUsers();
+
+    return res.status(200).json({ data: users });
+  } catch (error) {
+    return res.status(400).json({ error: "Internal server error" });
+  }
+};
+module.exports = { registerUser, loginUser, getAlUser };
