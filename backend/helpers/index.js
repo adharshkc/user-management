@@ -3,7 +3,9 @@ const bcrypt = require("bcrypt");
 
 const findUser = async function (data) {
   try {
+    console.log(data)
     const user = await User.findOne({ data });
+    console.log(user)
     return user;
   } catch (error) {
     console.log(error);
@@ -36,5 +38,35 @@ const allUsers = async function(){
     }
 }
 
+const userEdit = async function(userId, data){
+  try {
+    const {name, email, phone} = data
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: {
+          name:name,
+          email: email,
+          phone: phone,
+        },
+      },
+      { new: true }
+    );
+    console.log(updatedUser)
+    return updatedUser;
+  } catch (error) {
+    
+  }
+}
 
-module.exports = { findUser, createUser, allUsers };
+const findUserById = async function(userId){
+  try {
+    const user = await User.findById(userId)
+    console.log(user)
+    return user
+  } catch (error) {
+    
+  }
+}
+
+module.exports = { findUser, createUser, allUsers, userEdit, findUserById };

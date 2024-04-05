@@ -1,5 +1,5 @@
 const User = require("../modals/user");
-const { findUser, createUser, allUsers } = require("../helpers/index");
+const { findUser, createUser, allUsers, userEdit, findUserById } = require("../helpers/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/jwtUtils");
@@ -67,4 +67,28 @@ const addUser = async function(req, res){
   }
 }
 
-module.exports = { registerUser, loginUser, getAlUser, addUser };
+const editUser = async function(req, res){
+  try {
+    const data = req.body;
+    const userId = req.params.id
+    const user = await userEdit(userId,data)
+    return res.status(200).json({message: "User updated successfully"})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getUser = async function(req, res){
+  console.log("edit")
+  try {
+    const id = req.params.id;
+    console.log(id)
+    const user = await findUserById(id) 
+    console.log(user)
+    return res.status(200).json({user: user})
+  } catch (error) {
+    
+  }
+}
+
+module.exports = { registerUser, loginUser, getAlUser, addUser, editUser, getUser };
