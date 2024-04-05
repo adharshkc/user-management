@@ -1,5 +1,12 @@
 const User = require("../modals/user");
-const { findUser, createUser, allUsers, userEdit, findUserById } = require("../helpers/index");
+const {
+  findUser,
+  createUser,
+  allUsers,
+  userEdit,
+  findUserById,
+  userDelete,
+} = require("../helpers/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/jwtUtils");
@@ -47,7 +54,6 @@ const loginUser = async function (req, res) {
 
 const getAlUser = async function (req, res) {
   try {
-    
     const users = await allUsers();
 
     return res.status(200).json({ data: users });
@@ -56,39 +62,59 @@ const getAlUser = async function (req, res) {
   }
 };
 
-const addUser = async function(req, res){
+const addUser = async function (req, res) {
   try {
     const data = req.body;
-    const user = await createUser(data)
+    const user = await createUser(data);
 
-    return res.status(200).json({  message: "User added successfully" });
+    return res.status(200).json({ message: "User added successfully" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-const editUser = async function(req, res){
+const editUser = async function (req, res) {
   try {
     const data = req.body;
-    const userId = req.params.id
-    const user = await userEdit(userId,data)
-    return res.status(200).json({message: "User updated successfully"})
+    const userId = req.params.id;
+    const user = await userEdit(userId, data);
+    return res.status(200).json({ message: "User updated successfully" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-const getUser = async function(req, res){
-  console.log("edit")
+const getUser = async function (req, res) {
+  console.log("edit");
   try {
     const id = req.params.id;
-    console.log(id)
-    const user = await findUserById(id) 
-    console.log(user)
-    return res.status(200).json({user: user})
+    console.log(id);
+    const user = await findUserById(id);
+    console.log(user);
+    return res.status(200).json({ user: user });
   } catch (error) {
-    
+    console.log(error);
   }
-}
+};
 
-module.exports = { registerUser, loginUser, getAlUser, addUser, editUser, getUser };
+const deleteUser = async function (req, res) {
+  try {
+    const id = req.params.id;
+    const deletedUser = await userDelete(id);
+    return res
+      .status(200)
+      .json({ message: "User created successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getAlUser,
+  addUser,
+  editUser,
+  getUser,
+  deleteUser
+};

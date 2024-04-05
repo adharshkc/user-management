@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 
 const findUser = async function (data) {
   try {
-    console.log(data)
+    console.log(data);
     const user = await User.findOne({ data });
-    console.log(user)
+    console.log(user);
     return user;
   } catch (error) {
     console.log(error);
@@ -18,55 +18,64 @@ const createUser = async function (data) {
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await User.create({
-        name: name,
-        email: email,
-        phone: phone,
-        password: hashedPassword,
-      });
-      return newUser
+      name: name,
+      email: email,
+      phone: phone,
+      password: hashedPassword,
+    });
+    return newUser;
   } catch (error) {
     console.log(error);
   }
 };
 
-const allUsers = async function(){
-    try{
-        const users = await User.find();
-        return users
-    }catch(error){
-      console.log(error)
-    }
-}
-
-const userEdit = async function(userId, data){
+const allUsers = async function () {
   try {
-    const {name, email, phone} = data
+    const users = await User.find();
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const userEdit = async function (userId, data) {
+  try {
+    const { name, email, phone } = data;
     const updatedUser = await User.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
-          name:name,
+          name: name,
           email: email,
           phone: phone,
         },
       },
       { new: true }
     );
-    console.log(updatedUser)
+    console.log(updatedUser);
     return updatedUser;
   } catch (error) {
-    
+    console.log(error);
   }
-}
+};
 
-const findUserById = async function(userId){
+const findUserById = async function (userId) {
   try {
-    const user = await User.findById(userId)
-    console.log(user)
-    return user
+    const user = await User.findById(userId);
+    console.log(user);
+    return user;
   } catch (error) {
-    
+    console.log(error);
   }
-}
+};
 
-module.exports = { findUser, createUser, allUsers, userEdit, findUserById };
+const userDelete = async function (userId) {
+  try {
+    const user = await User.deleteOne({ _id: userId });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { findUser, createUser, allUsers, userEdit, findUserById, userDelete };
