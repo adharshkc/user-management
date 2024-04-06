@@ -47,11 +47,11 @@ const Register = () => {
         })
       })
       const data = await response.json()
-      console.log(response.ok)
       if(response.ok){
+        const token  = data.token
+        localStorage.setItem('token', token)
         navigate('/')
       }else{
-        console.log(data)
         toast.error(data.error)
       }
 

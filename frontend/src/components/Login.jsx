@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 
@@ -7,6 +7,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    
+  },[])
 
   const handleClick = async (e)=>{
     e.preventDefault()
@@ -27,6 +31,8 @@ const Login = () => {
       }
       const data = await response.json();
       if(response.ok){
+        const token = data.token
+        localStorage.setItem("token", token)
         if(data.user === "admin"){
           navigate("/admin")
         }else{
