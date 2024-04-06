@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WEATHER_API_KEY } from "./constants/weather";
+import { WEATHER_API_KEY } from "../constants/weather";
 import useGetDate from "../utils/useGetDate";
 
 const WeatherCard = () => {

@@ -109,6 +109,14 @@ const deleteUser = async function (req, res) {
   }
 };
 
+const getHome = async function(req, res){
+  try {
+    res.status(200).json({message: "success"})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -116,5 +124,6 @@ module.exports = {
   addUser,
   editUser,
   getUser,
-  deleteUser
+  deleteUser,
+  getHome
 };

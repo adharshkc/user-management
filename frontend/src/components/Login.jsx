@@ -37,7 +37,7 @@ const Login = () => {
         if(data.user === "admin"){
           navigate("/admin")
         }else{
-          navigate("/")
+          navigate("/home")
         }
       
       }else{
