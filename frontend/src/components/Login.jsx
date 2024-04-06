@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const Login = () => {
@@ -30,6 +30,7 @@ const Login = () => {
         toast.error("Failed to Login")
       }
       const data = await response.json();
+      console.log(data)
       if(response.ok){
         const token = data.token
         localStorage.setItem("token", token)
@@ -40,6 +41,7 @@ const Login = () => {
         }
       
       }else{
+        console.log(data.error)
         toast.error(data.error)
       }
     } catch (error) {
@@ -52,7 +54,7 @@ const Login = () => {
   
   return (
     <div>
-        
+        <ToastContainer/>
       <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

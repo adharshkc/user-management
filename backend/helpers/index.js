@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const findUser = async function (data) {
   try {
     console.log(data);
-    const user = await User.findOne({ data });
+    const user = await User.findOne({email: data });
     console.log(user);
     return user;
   } catch (error) {

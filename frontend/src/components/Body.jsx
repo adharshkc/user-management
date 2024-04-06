@@ -1,9 +1,10 @@
+import WeatherCard from "./WeatherCard"
 
 
 const Body = () => {
   return (
     <div>
-      Home
+     <WeatherCard/>
     </div>
   )
 }
