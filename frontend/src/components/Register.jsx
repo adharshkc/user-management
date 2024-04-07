@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,14 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(token){
+      navigate('/home')
+    }
+  })
+
   const validateForm = async(e) => {
     e.preventDefault();
     console.log(typeof phone);
@@ -50,6 +58,7 @@ const Register = () => {
       if(response.ok){
         const token  = data.token
         localStorage.setItem('token', token)
+        
         navigate('/')
       }else{
         toast.error(data.error)

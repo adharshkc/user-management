@@ -5,13 +5,21 @@ import HomePage from "./pages/Home";
 import AdminPage from "./pages/AdminPage";
 import Form from "./components/Form";
 import EditUser from "./components/EditUser";
-
+import UserProvider from "./context/UserContext";
+// import UserContext from "./context/UserContext";
 
 function AppLayout() {
   return (
+    
+    <UserProvider>
+
     <>
       <Outlet/>
     </>
+
+    </UserProvider>
+
+    
   );
 }
 

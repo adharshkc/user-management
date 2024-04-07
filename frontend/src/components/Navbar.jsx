@@ -1,6 +1,8 @@
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom'
+import {UserContext} from '../context/UserContext'
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -14,6 +16,13 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const user = useContext(UserContext)
+  console.log(user)
+  const navigate = useNavigate()
+  const logoutUser = ()=>{
+    localStorage.removeItem('token');
+    navigate('/')
+  }
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -97,7 +106,8 @@ export default function Navbar() {
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Profile
+                            Hello {username}!
+                            {/* Your profile */}
                           </a>
                         )}
                       </Menu.Item>
@@ -114,6 +124,7 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
+                          onClick={logoutUser}
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >

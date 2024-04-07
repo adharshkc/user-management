@@ -21,7 +21,7 @@ const registerUser = async function (req, res) {
       const newUser = await createUser(req.body);
       const token = generateToken(newUser);
       console.log(token);
-      return res.status(200).json({ token, user: newUser.name });
+      return res.status(200).json({ token, user: "user", data: newUser });
     }
   } catch (error) {
     console.log(error);

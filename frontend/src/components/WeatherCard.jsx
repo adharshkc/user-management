@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { WEATHER_API_KEY } from "../constants/weather";
 import useGetDate from "../utils/useGetDate";
+// import { useUser } from "../context/UserContext";
 
 const WeatherCard = () => {
 
@@ -14,12 +15,12 @@ const WeatherCard = () => {
     // const [visibility, setVisibility] = useState("")
     const [weather, setWeather] = useState("")
     const {day, dateNum, month, year} = useGetDate()
+    // const {user} = useUser()
 
     useEffect(()=>{
         const fetchData = async()=>{
             const respone = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=1261481&appid=${WEATHER_API_KEY}`)
             const json = await respone.json()
-            console.log(json)
             setWeather(json)
             setStatus(json?.list[0])
         }
@@ -38,7 +39,7 @@ const WeatherCard = () => {
     const visibility = status?.visibility
     return (
         <>
-      <h1 className="text-center my-10 text-2xl font-bold">Hello Adharsh!</h1>
+      <h1 className="text-center my-10 text-2xl font-bold">Hello !</h1>
     <div className=" flex items-center justify-center">
       <div className="flex flex-col bg-white rounded p-4 border-2 shadow-lg w-full max-w-xs">
         <div className="font-bold text-xl">{place}</div>

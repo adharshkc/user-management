@@ -11,7 +11,6 @@ const Form = () => {
     const navigate = useNavigate()
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(typeof phone);
     if (name.length < 4) {
       toast.error("name should be minimum 3 letters");
       return;

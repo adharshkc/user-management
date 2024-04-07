@@ -1,10 +1,13 @@
 import Body from "../components/Body";
 import Navbar from "../components/Navbar";
+import UserProvider from "../context/UserContext";
 
 const HomePage = () => {
   return (
     <div>
-      <Navbar/>
+      <UserProvider>
+        <Navbar />
+      </UserProvider>
       <Body />
     </div>
   );

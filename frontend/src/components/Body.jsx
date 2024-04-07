@@ -17,7 +17,6 @@ const Body = () => {
             "Authorization": `${token}`
           }
         })
-        console.log(response)
         if(!response.ok){
           console.log("eroor")
           navigate('/')

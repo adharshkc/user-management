@@ -4,7 +4,6 @@ const useGetDate = () => {
   const dateNum = date.getDate()
   const monthNum = date.getMonth()
   const year = date.getFullYear()
-  console.log(date.getDate())
   let day;
   let month
   if(dayNum === 0){
