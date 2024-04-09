@@ -36,21 +36,25 @@
 import { createContext, useState } from "react";
 
 export const UserContext = createContext({
-  username: "user",
-  userRole: "user",
-  setUser: ()=>{}
+  username: "",
+  userRole: "",
+  loginUser: ()=>{},
+  logoutUser:()=>{}
 })
 
 function UserProvider({children}){
-  const [username, setUsername] = useState('adharsh');
-  const [userRole, setUserRole] = useState('admin'); 
-  const setUser = (newUsername, newUserRole)=>{
-    setUserRole(newUserRole)
-    setUsername(newUsername)
+  const [username, setUsername] = useState('');
+
+  const loginUser = (userData)=>{
+    setUsername(userData)
+    localStorage.setItem("user", JSON.stringify(userData))
   }
+  const logoutUser = () => {
+    setUsername(null);
+    localStorage.removeItem('user');
+  };
   return(
-    <UserContext.Provider value={{username, userRole, setUser}}>
-      {}
+    <UserContext.Provider value={{username,loginUser,logoutUser}}>
       {children}
     </UserContext.Provider>
   )

@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
@@ -16,10 +16,15 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const user = useContext(UserContext)
-  console.log(user)
+  const [user, setUser] = useState()
+  let { logoutUser} = useContext(UserContext)
+  let data = localStorage.getItem("user")
+  let username = JSON.parse(data)
+  console.log(username)
+  // setUser(username)
   const navigate = useNavigate()
-  const logoutUser = ()=>{
+  const logout = ()=>{
+    logoutUser()
     localStorage.removeItem('token');
     navigate('/')
   }
@@ -106,7 +111,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Hello {username}!
+                            Hello {username.name}!
                             {/* Your profile */}
                           </a>
                         )}
@@ -124,7 +129,7 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                          onClick={logoutUser}
+                          onClick={logout}
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >

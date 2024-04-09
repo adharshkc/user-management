@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {UserContext} from "../context/UserContext"
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const { loginUser} = useContext(UserContext)
   const navigate = useNavigate()
 
   useEffect(()=>{
@@ -57,6 +59,11 @@ const Register = () => {
       const data = await response.json()
       if(response.ok){
         const token  = data.token
+        const userData = {
+          name: data.data.name,
+          role: "user"
+        }
+        loginUser(userData)
         localStorage.setItem('token', token)
         
         navigate('/')

@@ -1,13 +1,14 @@
 import { Link, useNavigate, useRouteError } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import UserContext from "../context/UserContext"
+import {UserContext} from "../context/UserContext"
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
+  const { loginUser} = useContext(UserContext)
   
   useEffect(()=>{
     const token = localStorage.getItem('token');
@@ -37,13 +38,16 @@ const Login = () => {
       console.log(data)
       if(response.ok){
         const token = data.token
+        const userData = {
+          name: data.data.name,
+          role: data.user
+        }
         localStorage.setItem("token", token)
         if(data.user === "admin"){
-          loginUser(data.data)
-          userRole(data.user)
+          loginUser(userData)
           navigate("/admin")
         }else{
-          loginUser(data.data)
+          loginUser(userData)
           navigate("/home")
         }
       
