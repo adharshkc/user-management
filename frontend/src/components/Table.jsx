@@ -23,6 +23,9 @@ const Table = () => {
     setFilterUser(newUser);
     toast("User Deleted Successfully");
   };
+  useEffect(()=>{
+    
+  })
   useEffect(() => {
     console.log("useEffect");
     if (userData) {
@@ -118,7 +121,7 @@ const Table = () => {
                   ))}
                 </table>
               </div>
-              <div className="py-1 px-4">
+              {/* <div className="py-1 px-4">
                 <nav className="flex items-center space-x-1">
                   <button
                     type="button"
@@ -127,9 +130,8 @@ const Table = () => {
                     <span aria-hidden="true">«</span>
                     <span className="sr-only">Previous</span>
                   </button>
-                  {/* Render pagination buttons dynamically */}
                 </nav>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
