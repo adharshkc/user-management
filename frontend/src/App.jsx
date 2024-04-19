@@ -6,7 +6,7 @@ import AdminPage from "./pages/AdminPage";
 import Form from "./components/Form";
 import EditUser from "./components/EditUser";
 import UserProvider from "./context/UserContext";
-// import UserContext from "./context/UserContext";
+import TodoPage from "./pages/Todo";
 
 function AppLayout() {
   return (
@@ -51,7 +51,10 @@ const appRouter = createBrowserRouter([
       {
         path:'/user_edit/:userId',
         element:<EditUser/>
-      },
+      },{
+        path:"/todo",
+        element: <TodoPage/>
+      }
     ]
   }
 ])

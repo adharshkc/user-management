@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { WEATHER_API_KEY } from "../constants/weather";
 import useGetDate from "../utils/useGetDate";
+import Shimmer from "./Shimmer";
 // import { useUser } from "../context/UserContext";
 
 const WeatherCard = () => {
@@ -29,8 +30,8 @@ const WeatherCard = () => {
     };
     fetchData();
   }, []);
-  if (weather === null) return <h1>Loading</h1>;
-  if (status.length == 0) return <h1>Loading</h1>;
+  if (weather === null) return <Shimmer/>;
+  if (status.length == 0) return  <Shimmer/>;
 
   const place = weather?.city?.name;
   const clouds = status?.weather[0]?.description;
