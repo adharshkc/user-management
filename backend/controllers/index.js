@@ -76,7 +76,7 @@ const addUser = async function (req, res) {
 const editUser = async function (req, res) {
   try {
     const data = req.body;
-    const userId = req.params.id;
+    const userId = req.params.id;//dont pass id through url
     const user = await userEdit(userId, data);
     return res.status(200).json({ message: "User updated successfully" });
   } catch (error) {

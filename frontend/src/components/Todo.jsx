@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Todo = () => {
     const [input, setInput] = useState('')
+    // const [todo, setTodo] = useState([])
+    const todoList = useSelector((store)=>store.todo.items)
   return (
     <>
       <div className="max-w-md mx-auto mt-8">
@@ -33,6 +36,12 @@ const Todo = () => {
             </button>
           </li>
         ))} */}
+        {todoList.map((todo, index)=>(
+           <li key={index} className="flex items-center justify-between py-2 border-b">
+            {console.log(todo)}
+            <span>{todo}</span>
+           </li>
+))}
         </ul>
       </div>
     </>
