@@ -2,6 +2,8 @@ import { Link, useNavigate, useRouteError } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import {UserContext} from "../context/UserContext"
+import { useDispatch } from "react-redux";
+import { addUser } from "../reducer/userSlice";
 
 
 const Login = () => {
@@ -16,6 +18,8 @@ const Login = () => {
       navigate('/home')
     }
   },[])
+
+  const dispatch = useDispatch();
 
   const handleClick = async (e)=>{
     e.preventDefault()
@@ -35,19 +39,25 @@ const Login = () => {
         toast.error("Failed to Login")
       }
       const data = await response.json();
-      console.log(data)
       if(response.ok){
         const token = data.token
+        dispatch(addUser({
+          name:data.data.name,
+          email:data.data.email,
+          phone: data.data.phone
+        }))
         const userData = {
           name: data.data.name,
           role: data.user
         }
+        console.log("token",token)
         localStorage.setItem("token", token)
         if(data.user === "admin"){
           loginUser(userData)
           navigate("/admin")
         }else{
           loginUser(userData)
+          console.log("kldfj")
           navigate("/home")
         }
       

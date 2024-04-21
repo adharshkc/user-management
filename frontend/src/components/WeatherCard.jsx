@@ -16,8 +16,6 @@ const WeatherCard = () => {
   const [weather, setWeather] = useState("");
   const { day, dateNum, month, year } = useGetDate();
   // const {user} = useUser()
-  const data = localStorage.getItem("user");
-  let username = JSON.parse(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +41,6 @@ const WeatherCard = () => {
   const visibility = status?.visibility;
   return (
     <>
-      <h1 className="text-center my-10 text-2xl font-bold">Hello {username.name}!</h1>
       <div className=" flex items-center justify-center">
         <div className="flex flex-col bg-white rounded p-4 border-2 shadow-lg w-full max-w-xs">
           <div className="font-bold text-xl">{place}</div>
