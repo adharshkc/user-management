@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import {UserContext} from "../context/UserContext"
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducer/userSlice";
+import useGetFetch from "../utils/useGetFetch";
 
 
 const Login = () => {
@@ -11,12 +12,16 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
   const { loginUser} = useContext(UserContext)
+  const {fetchData} = useGetFetch()
+
+  // const getFetchData("/home")
   
+  async function getFetchData(){
+     const response = await fetchData("/home")
+     console.log(response)
+   }
   useEffect(()=>{
-    const token = localStorage.getItem('token');
-    if(token){
-      navigate('/home')
-    }
+    getFetchData()
   },[])
 
   const dispatch = useDispatch();
@@ -48,10 +53,11 @@ const Login = () => {
         }))
         const userData = {
           name: data.data.name,
-          role: data.user
+          role: data.user,
+          token: token
         }
         console.log("token",token)
-        localStorage.setItem("token", token)
+        localStorage.setItem("user", JSON.stringify(userData))
         if(data.user === "admin"){
           loginUser(userData)
           navigate("/admin")
