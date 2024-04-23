@@ -1,4 +1,5 @@
-const { Form } = require("react-router-dom")
+import Form from "../../components/admin/Form";
+
 
 const AddUserPage = ()=>{
     return(
