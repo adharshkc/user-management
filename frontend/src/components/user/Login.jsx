@@ -1,10 +1,10 @@
 import { Link, useNavigate, useRouteError } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import {UserContext} from "../context/UserContext"
+import {UserContext} from "../../context/UserContext"
 import { useDispatch } from "react-redux";
-import { addUser } from "../reducer/userSlice";
-import useGetFetch from "../utils/useGetFetch";
+import { addUser } from "../../redux/slices/userSlice";
+import useGetFetch from "../../utils/useGetFetch";
 
 
 const Login = () => {

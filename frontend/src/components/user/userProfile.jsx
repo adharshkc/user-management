@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { dummyImageUrl, imgUrl } from "../constants/constant.js";
+import { dummyImageUrl, imgUrl } from "../../constants/constant.js";
 
 const ProfileCard = () => {
   const { name, email, phone, imageUrl } = useSelector((store) => store.user);

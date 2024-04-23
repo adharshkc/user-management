@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { WEATHER_API_KEY } from "../constants/weather";
-import useGetDate from "../utils/useGetDate";
-import Shimmer from "./Shimmer";
+import { WEATHER_API_KEY } from "../../constants/weather";
+import useGetDate from "../../utils/useGetDate";
+import Shimmer from "../common/Shimmer";
 // import { useUser } from "../context/UserContext";
 
 const WeatherCard = () => {

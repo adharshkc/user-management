@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../common/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import { Link,useNavigate } from "react-router-dom";
 

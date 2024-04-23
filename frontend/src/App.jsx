@@ -1,57 +1,21 @@
-import {createBrowserRouter, Outlet} from "react-router-dom"
-import LoginPage from "./pages/Login";
-import RegisterPage from "./pages/Register";
-import HomePage from "./pages/Home";
-import AdminPage from "./pages/AdminPage";
-import Form from "./components/Form";
-import EditUser from "./components/EditUser";
-import UserProvider from "./context/UserContext";
-function AppLayout() {
-  return (
-    
-    <UserProvider>
 
-    <>
-      <Outlet/>
-    </>
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AdminRoutes from "./routes/adminRoute";
+import UserRoutes from "./routes/userRoute";
 
-    </UserProvider>
 
-    
-  );
+function App (){
+  return(
+    <BrowserRouter>
+    <Routes>
+      <Route path="/admin/*" element={<AdminRoutes/>}/>
+      <Route path="/user/*" element={<UserRoutes/>}/>
+    </Routes>
+    </BrowserRouter>
+  )
 }
 
-const appRouter = createBrowserRouter([
-  {
-    path:'/',
-    element:<AppLayout/>,
-    children: [
-      {
-        path:'/home',
-        element:<HomePage/>
-      },
-      {
-        path:'/',
-        element:<LoginPage/>
-      },
-      {
-        path:'/register',
-        element:<RegisterPage/>
-      },
-      {
-        path:'/admin',
-        element:<AdminPage/>
-      },
-      {
-        path:'/add_user',
-        element:<Form/>
-      },
-      {
-        path:'/user_edit/:userId',
-        element:<EditUser/>
-      }
-    ]
-  }
-])
 
-export default appRouter;
+
+
+export default App;

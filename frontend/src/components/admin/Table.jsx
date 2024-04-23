@@ -1,5 +1,5 @@
 import TableBody from "./TableBody";
-import useUserData from "../utils/useUserData";
+import useUserData from "../../utils/useUserData";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";

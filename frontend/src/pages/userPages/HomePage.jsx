@@ -1,5 +1,5 @@
-import Body from "../components/Body";
-import Navbar from "../components/Navbar";
+import Body from "../../components/user/Body";
+import Navbar from "../../components/common/Navbar";
 // import UserProvider from "../context/UserContext";
 
 const HomePage = () => {
