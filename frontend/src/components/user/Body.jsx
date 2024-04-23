@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileCard from "./userProfile";
 
-import useGetFetch from "../utils/useGetFetch";
+import useGetFetch from "../../utils/useGetFetch";
 
 const Body = () => {
   const navigate = useNavigate();

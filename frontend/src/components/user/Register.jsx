@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {UserContext} from "../context/UserContext"
+import {UserContext} from "../../context/UserContext"
 
 const Register = () => {
   const [name, setName] = useState("");

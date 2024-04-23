@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import Navbar from "./Navbar";
+import Navbar from "../common/Navbar";
 
 const EditUser = (props) => {
   const { userId } = useParams();

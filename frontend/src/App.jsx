@@ -1,10 +1,10 @@
 import {createBrowserRouter, Outlet} from "react-router-dom"
 import LoginPage from "./pages/Login";
-import RegisterPage from "./pages/Register";
-import HomePage from "./pages/Home";
-import AdminPage from "./pages/AdminPage";
-import Form from "./components/Form";
-import EditUser from "./components/EditUser";
+import RegisterPage from "./pages/userPages/RegisterPage";
+import HomePage from "./pages/userPages/HomePage";
+import AdminPage from "./pages/adminPages/AdminPage";
+import Form from "./components/admin/Form";
+import EditUser from "./components/admin/EditUser";
 import UserProvider from "./context/UserContext";
 function AppLayout() {
   return (
