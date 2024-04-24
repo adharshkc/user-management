@@ -9,7 +9,6 @@ const usePostFetch = () => {
 
   const fetchPost = async function (data, endPoint) {
     try {
-      setIsLoading(true);
       const storedData = localStorage.getItem("user");
       const localData = JSON.parse(storedData);
       const token = localData?.token;
@@ -31,12 +30,13 @@ const usePostFetch = () => {
       setResponse(resData);
     } catch (error) {
       // Handle the error
-      console.error(error);
+      setIsLoading(false)
+      console.log(error)
       setError(error);
     }
   };
 
-  return { response, isLoading, error, fetchPost };
+  return { response, error, fetchPost };
 };
 
 export default usePostFetch;

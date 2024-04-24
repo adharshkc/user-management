@@ -18,7 +18,7 @@ class CustomError extends Error {
 }
 
 const errorHandler = (err, req, res, next) => {
-  console.log(err)
+  console.log(err.message)
   const statusCode = err.statusCode || 500;
   const errorMessage = err.message || 'Internal Server Error';
 

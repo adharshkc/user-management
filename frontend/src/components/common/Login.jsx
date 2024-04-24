@@ -1,18 +1,30 @@
 import { useState } from "react";
-import { ToastContainer } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify";
 
-const Login = ({role,loading, handleFunc})=>{
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
-    const onSubmit = (e)=>{
-      e.preventDefault()
-      handleFunc(email, password)
+const Login = ({ role, handleFunc }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !email.trim()) {
+      toast.error("Please enter your email.");
+      return;
     }
 
-    return(
-        <div>
-        <ToastContainer/>
+    // Basic password validation
+    if (!password || !password.trim()) {
+      toast.error("Please enter your password.");
+      return;
+    }
+    const error = handleFunc(email, password);
+    if(error){
+      toast.error(error)
+    }
+  };
+
+  return (
+    <div>
+      <ToastContainer />
       <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -21,12 +33,15 @@ const Login = ({role,loading, handleFunc})=>{
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            {role==="admin"?
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Admin Login
-            </h2>:<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign in to your account
-            </h2>}
+            {role === "admin" ? (
+              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                Admin Login
+              </h2>
+            ) : (
+              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                Sign in to your account
+              </h2>
+            )}
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -84,29 +99,31 @@ const Login = ({role,loading, handleFunc})=>{
               <div>
                 <button
                   type="submit"
-                  onClick={(e)=>onSubmit(e)}
-                  className={`flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${loading ? 'opacity-50' : ''}`}                >
+                  onClick={(e) => onSubmit(e)}
+                  className={`flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600}`}
+                >
                   Sign in
                 </button>
               </div>
             </form>
-            {role==="admin"?<p></p>:
-            <p className="mt-10 text-center text-sm text-gray-500">
-              Not a member?{" "}
-              {/* <Link
+            {role === "admin" ? (
+              <p></p>
+            ) : (
+              <p className="mt-10 text-center text-sm text-gray-500">
+                Not a member?{" "}
+                {/* <Link
                 to="/register"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
               > */}
                 Register?
-              {/* </Link> */}
-            </p>}
+                {/* </Link> */}
+              </p>
+            )}
           </div>
         </div>
       </div>
     </div>
-    )
-}
-
+  );
+};
 
 export default Login;
-
