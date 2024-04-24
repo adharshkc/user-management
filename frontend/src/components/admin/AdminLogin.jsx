@@ -2,6 +2,9 @@ import   Login  from "../common/Login"
 
 const AdminLogin = ()=>{
     return(
-        <Login role={'user'}/>
+        <Login role={'admin'}/>
     )
 }
+
+
+export default AdminLogin;
