@@ -7,7 +7,7 @@ import { addUser } from "../../redux/slices/userSlice";
 import useGetFetch from "../../utils/useGetFetch";
 
 
-const Login = () => {
+const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
@@ -174,4 +174,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default UserLogin;

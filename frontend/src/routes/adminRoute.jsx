@@ -9,8 +9,8 @@ const adminRoutes = () => {
     <Routes>
       <Route path="/" element={<AdminPage />} />
       <Route path="/add-user" element={<AddUserPage />} />
-      <Route path="/admin/edit-user" element={<EditUserPage />} />
-      <Route path="/admin/login" element={<LoginPage/>}/>
+      <Route path="/edit-user" element={<EditUserPage />} />
+      <Route path="/login" element={<LoginPage/>}/>
     </Routes>
   );
 };

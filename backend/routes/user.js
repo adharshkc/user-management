@@ -9,7 +9,7 @@ const {
   deleteUser,
   getHome,
   getAdmin
-} = require("../controllers");
+} = require("../controllers/userController");
 const userAuth = require("../middlewares/userAuth");
 
 router.post("/register", registerUser);

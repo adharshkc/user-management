@@ -6,7 +6,7 @@ const {
   userEdit,
   findUserById,
   userDelete,
-} = require("../helpers/index");
+} = require("../helpers/userHelper");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/jwtUtils");
