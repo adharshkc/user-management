@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const userAuth = function (req, res, next) {
+const adminAuth = function (req, res, next) {
   const bearerToken = req.headers.authorization;
   if (!bearerToken) {
     console.log("no");
@@ -10,7 +10,7 @@ const userAuth = function (req, res, next) {
     console.log(token);
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      if (decoded.role === "user") {
+      if (decoded.role === "admin") {
         next();
       } else {
         return res.status(401).json({ error: "Unauthorized access" });
@@ -25,4 +25,4 @@ const userAuth = function (req, res, next) {
 
 
 
-module.exports = userAuth;
+module.exports = adminAuth;

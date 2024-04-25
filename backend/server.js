@@ -11,8 +11,8 @@ const port = process.env.PORT;
 
 app.use(cors());
 app.use(bodyParser.json())
-app.use("/user", userRouter);
-app.use("/admin", adminRouter)
+app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter)
 app.use(errorHandler)
 
 app.listen(port, () => console.log(`server is listening on port ${port}`));

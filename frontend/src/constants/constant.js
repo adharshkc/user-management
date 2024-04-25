@@ -2,4 +2,4 @@ export const dummyImageUrl = "https://images.unsplash.com/photo-1500648767791-00
 
 export const imgUrl = "http://localhost:3000/uploads/"
 
-export const serverUrl = "http://localhost:3000"
+export const serverUrl = "http://localhost:3000/api"

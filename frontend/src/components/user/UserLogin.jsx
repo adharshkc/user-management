@@ -21,6 +21,13 @@ const UserLogin = () => {
           email: response.data.user.email,
         })
       )
+
+      const userData = {
+        name: response.data.user.name,
+        email: response.data.user.email,
+        token: response.data.token
+      }
+      localStorage.setItem("user", JSON.stringify(userData))
       console.log("hello")
       navigate('/')
 

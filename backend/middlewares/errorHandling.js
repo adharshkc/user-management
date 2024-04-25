@@ -1,14 +1,3 @@
-// const errorHandler = (err, req, res, next)=>{
-//     console.error("errror",err);
-//   res.status(500).json({
-//     message: 'An internal server error occurred',
-//     error: err.message
-//   });
-// }
-
-// module.exports = errorHandler
-
-// errorHandler.js
 
 class CustomError extends Error {
   constructor(message, statusCode) {

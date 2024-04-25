@@ -14,13 +14,19 @@ const AdminLogin = () => {
     const endPoint = "/admin/login";
     try {
       const response = await fetchPost(data, endPoint);
-      console.log(response.data.admin.name);
+      console.log(response.data.token);
       dispatch(
         addAdmin({
           name: response.data.admin.name,
           email: response.data.admin.email,
         })
       );
+      const adminData = {
+        name: response.data.admin.name,
+        email: response.data.admin.email,
+        token: response.data.token
+      }
+      localStorage.setItem("admin", JSON.stringify(adminData))
       navigate('/admin')
     } catch (error) {
       console.log(error);
