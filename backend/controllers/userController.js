@@ -30,21 +30,20 @@ const registerUser = async function (req, res) {
 
 const loginUser = async function (req, res) {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body.data;
     const user = await findUser(email);
+
     if (!user) {
-      return res.status(400).json({ error: "Invalid user" });
+      return res.status(404).json({ message: "User not found, kindly register" });
     } else {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         const token = generateToken(user);
-        if (user.isAdmin === "admin") {
-          return res.status(200).json({ token, user: "admin", data: user });
-        } else {
-          return res.status(200).json({ token, user: "user", data: user });
-        }
+      
+          return res.status(200).json({ token, user: user });
+        
       } else {
-        return res.status(400).json({ error: "Invalid password" });
+        return res.status(404).json({ message: "Invalid password" });
       }
     }
   } catch (error) {

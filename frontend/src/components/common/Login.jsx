@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = ({ role, handleFunc }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const onSubmit = (e) => {
+
+  const onSubmit = async(e) => {
     e.preventDefault();
     if (!email || !email.trim()) {
       toast.error("Please enter your email.");
       return;
     }
-
-    // Basic password validation
     if (!password || !password.trim()) {
       toast.error("Please enter your password.");
       return;
     }
-    const error = handleFunc(email, password);
-    if(error){
-      toast.error(error)
+    try {
+      const response = await handleFunc(email, password);
+    } catch (error) {
+      
+      toast.error(error || "something went wrong...")
     }
   };
 
@@ -111,12 +113,12 @@ const Login = ({ role, handleFunc }) => {
             ) : (
               <p className="mt-10 text-center text-sm text-gray-500">
                 Not a member?{" "}
-                {/* <Link
+                <Link
                 to="/register"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-              > */}
+              >
                 Register?
-                {/* </Link> */}
+                </Link>
               </p>
             )}
           </div>

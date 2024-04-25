@@ -4,13 +4,14 @@ const adminSlice = createSlice({
   name: "admin",
   initialState: {
     name: "",
-    imageUrl: "",
+    email: ""
+    
   },
   reducers: {
     addAdmin: (state, action) => {
-      const { name, imageUrl } = action.payload;
+      const { name, email } = action.payload;
       state.name = name;
-      state.imageUrl = imageUrl;
+      state.email = email
     },
   },
 });

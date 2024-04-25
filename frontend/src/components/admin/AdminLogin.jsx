@@ -1,21 +1,31 @@
 import Login from "../common/Login";
 import usePostFetch from "../../utils/usePostFetch";
+import { useDispatch } from "react-redux";
+import { addAdmin } from "../../redux/slices/adminSlice";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
-  const { response, error, fetchPost } = usePostFetch();
-  const handleClick = (email, password) => {
+  // const { response, error, fetchPost } = usePostFetch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const fetchPost = usePostFetch();
+  const handleClick = async (email, password) => {
     const data = { email, password };
     const endPoint = "/admin/login";
-    fetchPost(data, endPoint);
-    if (response) {
-      console.log("response", response);
-      return null
+    try {
+      const response = await fetchPost(data, endPoint);
+      console.log(response.data.admin.name);
+      dispatch(
+        addAdmin({
+          name: response.data.admin.name,
+          email: response.data.admin.email,
+        })
+      );
+      navigate('/admin')
+    } catch (error) {
+      console.log(error);
+      throw error.response.data.message;
     }
-    if (error) {
-      console.log("error", error.response.data.message);
-      return error?.response?.data?.message
-    }
-    
   };
 
   return (

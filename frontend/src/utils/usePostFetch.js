@@ -1,18 +1,20 @@
 import axios from "axios";
 import { serverUrl } from "../constants/constant";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const usePostFetch = () => {
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+
+
   const fetchPost = async function (data, endPoint) {
     try {
       const storedData = localStorage.getItem("user");
       const localData = JSON.parse(storedData);
       const token = localData?.token;
-
+      console.log(serverUrl+endPoint)
       const resData = await axios.post(
         serverUrl + endPoint,
         {
@@ -25,18 +27,14 @@ const usePostFetch = () => {
           },
         }
       );
-      // Handle the response data
-      setIsLoading(false);
-      setResponse(resData);
-    } catch (error) {
-      // Handle the error
-      setIsLoading(false)
-      console.log(error)
-      setError(error);
+      return resData
+    } catch (err) {
+      console.log(err)
+      throw err
     }
   };
-
-  return { response, error, fetchPost };
+  return fetchPost
+  // return { response, error, fetchPost };
 };
 
 export default usePostFetch;
