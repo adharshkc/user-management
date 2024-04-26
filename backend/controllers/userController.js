@@ -111,6 +111,7 @@ const deleteUser = async function (req, res) {
 const getHome = async function(req, res){
   try {
     console.log(req.headers.authorization)
+    console.log("logged in ")
     res.status(200).json({message: "success"})
   } catch (error) {
     console.log(error)

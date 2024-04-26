@@ -16,7 +16,7 @@ const userAuth = function (req, res, next) {
         return res.status(401).json({ error: "Unauthorized access" });
       }
     } catch (error) {
-      console.log(error);
+      console.log("error",error);
       return res.status(401).json({ error: "Invalid token" });
     }
   }

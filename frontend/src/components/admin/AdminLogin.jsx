@@ -9,14 +9,22 @@ import useGetFetch from "../../utils/useGetFetch";
 const AdminLogin = () => {
   // const { response, error, fetchPost } = usePostFetch();
   const {fetchData} = useGetFetch()
-  useEffect(()=>{
-     try {
-      const response = fetchData('/admin')
+  const getData = async function(){
+    try {
+      const response = await fetchData('/admin/')
+      console.log("response", response)
+      if(!response){
+        navigate("/admin/login")
+      }
       navigate("/admin")
-     } catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log("error", error)
+      navigate("/admin/login")
      } 
-  })
+  }
+  useEffect(()=>{
+     getData()
+  }, [])
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchPost = usePostFetch();
@@ -37,7 +45,7 @@ const AdminLogin = () => {
         email: response.data.admin.email,
         token: response.data.token
       }
-      localStorage.setItem("admin", JSON.stringify(adminData))
+      localStorage.setItem("user", JSON.stringify(adminData))
       navigate('/admin')
     } catch (error) {
       console.log(error);

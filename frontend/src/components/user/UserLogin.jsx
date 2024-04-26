@@ -14,11 +14,15 @@ const UserLogin = () => {
   const {fetchData} = useGetFetch()
   const getData = async function(){
     try {
-      const response = await fetchData('/home')
+      const response = await fetchData('/user/home')
       console.log("response", response)
-      navigate("/admin")
-     } catch (error) {
-      console.log(error)
+      if(!response){
+        navigate("/login")
+      }
+      navigate("/")
+    } catch (error) {
+      console.log("error", error)
+      navigate("/login")
      } 
   }
   useEffect(()=>{

@@ -11,11 +11,15 @@ const Body = () => {
 
 
   const fetchGetData = async function () {
-    const response = await fetchData("/home");
-    console.log("hello",response);
-    if(response.status !== 200){
-      navigate("/")
-    }
+   try {
+     const response = await fetchData("/user/home");
+     console.log("hello",response);
+     if(!response){
+       navigate("/login")
+     }
+   } catch (error) {
+      navigate("/login")
+   }
   };
 
   useEffect(() => {

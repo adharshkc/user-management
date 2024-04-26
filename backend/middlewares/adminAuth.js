@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const adminAuth = function (req, res, next) {
   const bearerToken = req.headers.authorization;
+  console.log(bearerToken)
   if (!bearerToken) {
     console.log("no");
     return res.json({ error: "token not found" });
