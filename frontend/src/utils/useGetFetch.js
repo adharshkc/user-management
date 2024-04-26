@@ -24,7 +24,7 @@ const useGetFetch =  function () {
             return null
           }
         } catch (error) {
-          return error;
+          throw error;
         }
     }
     return {fetchData}

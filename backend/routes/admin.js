@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { adminLogin } = require("../controllers/adminController")
+const { adminLogin, adminPage } = require("../controllers/adminController")
 const adminAuth = require("../middlewares/adminAuth")
 
 
@@ -7,7 +7,7 @@ const adminAuth = require("../middlewares/adminAuth")
 
 router.post("/login", adminLogin)
 
-router.get("/", adminAuth, (req, res)=>console.log("welcome"))
+router.get("/", adminAuth, adminPage)
 
 
 module.exports = router

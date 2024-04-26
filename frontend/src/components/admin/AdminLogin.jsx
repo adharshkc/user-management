@@ -3,9 +3,20 @@ import usePostFetch from "../../utils/usePostFetch";
 import { useDispatch } from "react-redux";
 import { addAdmin } from "../../redux/slices/adminSlice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import useGetFetch from "../../utils/useGetFetch";
 
 const AdminLogin = () => {
   // const { response, error, fetchPost } = usePostFetch();
+  const {fetchData} = useGetFetch()
+  useEffect(()=>{
+     try {
+      const response = fetchData('/admin')
+      navigate("/admin")
+     } catch (error) {
+      console.log(error)
+     } 
+  })
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchPost = usePostFetch();

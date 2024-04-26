@@ -26,4 +26,12 @@ const adminLogin = async (req, res, next)=>{
    }
 }
 
-module.exports = {adminLogin}
+const adminPage = (req, res, next)=>{
+  try {
+    res.status(200).json({message: "success"})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = {adminLogin, adminPage}
