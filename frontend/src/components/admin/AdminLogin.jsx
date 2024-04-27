@@ -7,12 +7,14 @@ import { useEffect } from "react";
 import useGetFetch from "../../utils/useGetFetch";
 
 const AdminLogin = () => {
-  // const { response, error, fetchPost } = usePostFetch();
   const {fetchData} = useGetFetch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const fetchPost = usePostFetch();
   const getData = async function(){
     try {
       const response = await fetchData('/admin/')
-      console.log("response", response)
+      console.log("login", response)
       if(!response){
         navigate("/admin/login")
       }
@@ -25,9 +27,6 @@ const AdminLogin = () => {
   useEffect(()=>{
      getData()
   }, [])
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const fetchPost = usePostFetch();
   const handleClick = async (email, password) => {
     const data = { email, password };
     const endPoint = "/admin/login";

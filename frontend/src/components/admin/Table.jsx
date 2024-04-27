@@ -3,6 +3,7 @@ import useUserData from "../../utils/useUserData";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import useGetFetch from "../../utils/useGetFetch";
 const tableHead = ["NAME", "EMAIL", "PHONE", "EDIT", "DELETE"];
 
 const filterData = (searchInput, userList) => {
@@ -17,6 +18,22 @@ const Table = () => {
   const [searchInput, setSearchInput] = useState("")
   const [filterUser, setFilterUser] = useState([]);
   const userData = useUserData();
+
+  const {fetchData} = useGetFetch()
+
+  const getData = async function(){
+    try {
+      const response = await fetchData("/admin/users");
+      
+      console.log("response, ",response.data.data[0])
+      const users = response.data.data;
+      setUserList(users)
+      setFilterUser(users)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
   const deleteFun = (userId) => {
     const newUser = userList.filter((user) => user._id !== userId);
     setUserList(newUser);
@@ -24,8 +41,8 @@ const Table = () => {
     toast("User Deleted Successfully");
   };
   useEffect(()=>{
-    
-  })
+    getData()
+  }, [])
   useEffect(() => {
     console.log("useEffect");
     if (userData) {

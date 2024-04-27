@@ -12,10 +12,12 @@ const AdminBody = ({ children }) => {
   const fetchGetData = async function () {
 
    try {
-     const response = await fetchData("/user/home");
-     console.log("hello",response);
+     const response = await fetchData("/admin/");
      if(!response){
        navigate("/admin/login")
+     }else{
+
+       navigate("/admin")
      }
    } catch (error) {
       navigate("/admin/login")

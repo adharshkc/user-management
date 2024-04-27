@@ -10,7 +10,6 @@ const useGetFetch =  function () {
           console.log("server",serverUrl + endPoint);
           const storedData = localStorage.getItem("user")
           const data = JSON.parse(storedData)
-          console.log("data",data)
           // if(data){
 
             const token = data?.token;
@@ -24,7 +23,7 @@ const useGetFetch =  function () {
             
           // }
         } catch (error) {
-          console.log("log", error)
+          // console.log("log", error)
           throw error;
         }
     }
