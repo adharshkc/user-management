@@ -1,14 +1,15 @@
 const jwt = require("jsonwebtoken");
 
-const adminAuth = function (req, res, next) {
+const   adminAuth = function (req, res, next) {
+  console.log(req.headers)
   const bearerToken = req.headers.authorization;
-  console.log(bearerToken)
+  console.log("bearer token",bearerToken)
   if (!bearerToken) {
     console.log("no");
     return res.json({ error: "token not found" });
   } else {
     const token = bearerToken.split(" ")[1];
-    console.log(token);
+    console.log("token",token);
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       if (decoded.role === "admin") {

@@ -69,13 +69,6 @@ const findUserById = async function (userId) {
   }
 };
 
-const userDelete = async function (userId) {
-  try {
-    const user = await User.deleteOne({ _id: userId });
-    return user;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-module.exports = { findUser, createUser, allUsers, userEdit, findUserById, userDelete };
+
+module.exports = { findUser, createUser, allUsers, userEdit, findUserById };

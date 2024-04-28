@@ -1,4 +1,4 @@
-const { findAdmin } = require("../helpers/adminHelper");
+const { findAdmin, userDelete,userSoftDelete } = require("../helpers/adminHelper");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/jwtUtils");
 const { emit } = require("nodemon");
@@ -43,4 +43,18 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { adminLogin, adminPage, getUsers };
+const deleteUser = async (req, res, next)=>{
+  try {
+    const id  = req.body.id;
+    const deletedUser = await userDelete(id)
+    if(deletedUser){
+      const softDelete = await userSoftDelete(deletedUser)
+    }
+    return res.status(200).json({message: "success"})
+  } catch (error) {
+    return res.status(400).json({ error: "Internal server error" });
+
+  }
+}
+
+module.exports = { adminLogin, adminPage, getUsers,deleteUser };

@@ -14,7 +14,6 @@ const AdminLogin = () => {
   const getData = async function(){
     try {
       const response = await fetchData('/admin/')
-      console.log("login", response)
       if(!response){
         navigate("/admin/login")
       }
@@ -32,7 +31,6 @@ const AdminLogin = () => {
     const endPoint = "/admin/login";
     try {
       const response = await fetchPost(data, endPoint);
-      console.log(response.data.token);
       dispatch(
         addAdmin({
           name: response.data.admin.name,

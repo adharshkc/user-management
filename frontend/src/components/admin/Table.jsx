@@ -5,44 +5,44 @@ import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import useGetFetch from "../../utils/useGetFetch";
 const tableHead = ["NAME", "EMAIL", "PHONE", "EDIT", "DELETE"];
+import useDeleteFetch from "../../utils/useDeleteFetch";
 
 const filterData = (searchInput, userList) => {
   const searchUser = userList.filter((item) =>
     item.name.toLowerCase().includes(searchInput.toLowerCase())
   );
-  return searchUser
+  return searchUser;
 };
 
 const Table = () => {
   const [userList, setUserList] = useState([]);
-  const [searchInput, setSearchInput] = useState("")
+  const [searchInput, setSearchInput] = useState("");
   const [filterUser, setFilterUser] = useState([]);
+  const [refresh, setRefresh] = useState(0)
+  const fetchDelete = useDeleteFetch()
   const userData = useUserData();
 
-  const {fetchData} = useGetFetch()
+  const { fetchData } = useGetFetch();
 
-  const getData = async function(){
+  const getData = async function () {
     try {
       const response = await fetchData("/admin/users");
-      
-      console.log("response, ",response.data.data[0])
       const users = response.data.data;
-      setUserList(users)
-      setFilterUser(users)
+      setUserList(users);
+      setFilterUser(users);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  
-  const deleteFun = (userId) => {
-    const newUser = userList.filter((user) => user._id !== userId);
-    setUserList(newUser);
-    setFilterUser(newUser);
-    toast("User Deleted Successfully");
   };
-  useEffect(()=>{
-    getData()
-  }, [])
+
+  const deleteFun = async(userId) => {
+    
+    const response = await fetchDelete({id:userId}, '/admin/user-delete')
+    setRefresh(prev =>prev+1)
+  };
+  useEffect(() => {
+    getData();
+  }, [refresh]);
   useEffect(() => {
     console.log("useEffect");
     if (userData) {
@@ -68,9 +68,9 @@ const Table = () => {
                     id="hs-table-with-pagination-search"
                     value={searchInput}
                     onChange={(e) => {
-                      setSearchInput(e.target.value)
+                      setSearchInput(e.target.value);
                       const data = filterData(e.target.value, userList);
-                      setFilterUser(data)
+                      setFilterUser(data);
                     }}
                     className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                     placeholder="Search for items"
@@ -132,7 +132,7 @@ const Table = () => {
                   {filterUser.map((item) => (
                     <TableBody
                       key={item._id}
-                      deleteFun={deleteFun}
+                      delFun={deleteFun}
                       data={item}
                     />
                   ))}

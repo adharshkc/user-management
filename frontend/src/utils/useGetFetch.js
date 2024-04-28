@@ -23,7 +23,7 @@ const useGetFetch =  function () {
             
           // }
         } catch (error) {
-          // console.log("log", error)
+          console.log("log", error)
           throw error;
         }
     }
