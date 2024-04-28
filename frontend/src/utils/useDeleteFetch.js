@@ -6,6 +6,7 @@ const useDeleteFetch = ()=>{
         try {
           const storedData = localStorage.getItem("user");
           const localData = JSON.parse(storedData);
+          console.log(data)
           const token = localData?.token;
           console.log(serverUrl+endPoint)
           console.log(token)

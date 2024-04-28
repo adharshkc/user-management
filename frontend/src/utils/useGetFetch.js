@@ -13,6 +13,7 @@ const useGetFetch =  function () {
           // if(data){
 
             const token = data?.token;
+            console.log("token",token)
             const response = await axios.get(serverUrl + endPoint, {
               headers: {
                 Authorization: `Bearer ${token}`,

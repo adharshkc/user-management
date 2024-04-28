@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {UserContext} from "../../context/UserContext"
+import usePostFetch from "../../utils/usePostFetch";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const { loginUser} = useContext(UserContext)
   const navigate = useNavigate()
+  const fetchPost = usePostFetch()
 
   useEffect(()=>{
     const token = localStorage.getItem("token");
@@ -22,8 +24,9 @@ const Register = () => {
   const validateForm = async(e) => {
     e.preventDefault();
     console.log(typeof phone);
-    if (name.length < 4) {
-      toast.error("name should be minimum 3 letters");
+    console.log(typeof phone);
+    if (name.trim().length < 3) {
+      toast.error("Name should be minimum 3 letters");
       return;
     }
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,48 +34,36 @@ const Register = () => {
       toast.error("Please enter a valid email");
       return;
     }
+    const phoneWithoutSpaces = phone.replace(/\s/g, ''); 
     const validPhone = /^\d{10}$/;
-    if (!validPhone.test(phone)) {
+    if (!validPhone.test(phoneWithoutSpaces)) {
       console.log(typeof phone);
-      toast.error("Please enter a valid number");
+      toast.error("Please enter a valid 10-digit number without spaces");
       return;
     }
-    if (password.length < 5) {
+    if (password.trim().length < 6) {
       toast.error("Password should be more than 6 characters");
       return;
     }
+    
 
     try {
-      
-      const response = await fetch("http://localhost:3000/register", {
-        method:'POST',
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          phone: phone,
-          password: password
-        })
-      })
-      const data = await response.json()
-      if(response.ok){
-        const token  = data.token
-        const userData = {
-          name: data.data.name,
-          role: "user"
-        }
-        loginUser(userData)
-        localStorage.setItem('token', token)
-        
-        navigate('/')
-      }else{
-        toast.error(data.error)
-      }
+      const data = {name, email, phone, password}
+      const endPoint = '/user/register'
+      const response = await fetchPost(data, endPoint)
+     console.log("name",response.data.token)
 
+     const userData = {
+      name: response.data.data.name,
+      email: response.data.data.email,
+      phone: response.data.data.phone,
+      token: response.data.token
+    }
+    localStorage.setItem("user", JSON.stringify(userData))
+    navigate("/")
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.error)
+      toast.error(error.response.data.error)
     }
 
   };

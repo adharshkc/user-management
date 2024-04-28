@@ -7,8 +7,9 @@ const { allUsers } = require("../helpers/userHelper");
 const adminLogin = async (req, res, next) => {
   console.log(req.body);
   try {
-    const { email, password } = req.body.data;
+    const { email, password } = req.body;
     const admin = await findAdmin(email);
+    console.log(admin)
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     } else {

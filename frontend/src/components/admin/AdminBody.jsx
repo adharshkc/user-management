@@ -29,7 +29,7 @@ const AdminBody = ({ children }) => {
   }, []);
   return (
     <>
-      <Navbar />
+      <Navbar role={"admin"} />
       <main>{children}</main>
     </>
   );

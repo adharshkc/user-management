@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div>
       {/* <UserProvider> */}
-        <Navbar />
+        <Navbar role={"user"}/>
       {/* </UserProvider> */}
       <Body />
     </div>

@@ -15,7 +15,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar() {
+export default function Navbar(props) {
   const [user, setUser] = useState()
   let { logoutUser} = useContext(UserContext)
   let data = localStorage.getItem("user")
@@ -25,8 +25,14 @@ export default function Navbar() {
   const navigate = useNavigate()
   const logout = ()=>{
     logoutUser()
-    localStorage.removeItem('token');
-    navigate('/')
+    localStorage.removeItem('user');
+    if(props.role ==="user"){
+      navigate('/login')
+
+    }else{
+      navigate("/admin/login")
+    }
+    
   }
   return (
     <Disclosure as="nav" className="bg-gray-800">

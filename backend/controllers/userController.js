@@ -14,12 +14,13 @@ const { generateToken } = require("../utils/jwtUtils");
 const registerUser = async function (req, res) {
   try {
     const { name, email, phone, password } = req.body;
+    console.log(req.body)
     const user = await findUser(email);
     if (user) {
       return res.status(400).json({ error: "User already exists" });
     } else {
       const newUser = await createUser(req.body);
-      const token = generateToken(newUser);
+      const token = generateToken(newUser, "user");
       console.log(token);
       return res.status(200).json({ token, user: "user", data: newUser });
     }
@@ -30,7 +31,8 @@ const registerUser = async function (req, res) {
 
 const loginUser = async function (req, res) {
   try {
-    const { email, password } = req.body.data;
+    console.log(req.body.data)
+    const { email, password } = req.body;
     const user = await findUser(email);
 
     if (!user) {
