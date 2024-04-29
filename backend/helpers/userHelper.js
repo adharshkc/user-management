@@ -38,26 +38,7 @@ const allUsers = async function () {
   }
 };
 
-const userEdit = async function (userId, data) {
-  try {
-    const { name, email, phone } = data;
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: userId },
-      {
-        $set: {
-          name: name,
-          email: email,
-          phone: phone,
-        },
-      },
-      { new: true }
-    );
-    console.log(updatedUser);
-    return updatedUser;
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 
 const findUserById = async function (userId) {
   try {
@@ -71,4 +52,4 @@ const findUserById = async function (userId) {
 
 
 
-module.exports = { findUser, createUser, allUsers, userEdit, findUserById };
+module.exports = { findUser, createUser, allUsers, findUserById };

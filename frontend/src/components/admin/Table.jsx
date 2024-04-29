@@ -70,6 +70,12 @@ const Table = () => {
 
   }
 
+  function onRefresh(){
+    setRefresh(prev =>prev+1)
+    toast("user updated successfully")
+
+  }
+
   const addUserSubmit = async()=>{
     if (name.trim().length < 3) {
       toast.error("Name should be minimum 3 letters");
@@ -188,6 +194,7 @@ const Table = () => {
                       key={item._id}
                       delFun={deleteFun}
                       data={item}
+                      refresh={onRefresh}
                     />
                   ))}
                 </table>

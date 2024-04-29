@@ -47,5 +47,24 @@ const addUserByAdmin = async function(data){
     console.log(error)
   }
 }
+const userEdit = async function (userId, data) {
+  try {
+    const { name, phone } = data;
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: {
+          name: name,
+          phone: phone,
+        },
+      },
+      { new: true }
+    );
+    console.log(updatedUser);
+    return updatedUser;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-module.exports = { findAdmin, userDelete, userSoftDelete, addUserByAdmin };
+module.exports = { findAdmin, userDelete, userSoftDelete,userEdit, addUserByAdmin };

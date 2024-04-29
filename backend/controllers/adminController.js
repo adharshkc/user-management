@@ -1,4 +1,4 @@
-const { findAdmin, userDelete,userSoftDelete, addUserByAdmin } = require("../helpers/adminHelper");
+const { findAdmin, userDelete,userSoftDelete, addUserByAdmin, userEdit } = require("../helpers/adminHelper");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/jwtUtils");
 const { allUsers, findUser } = require("../helpers/userHelper");
@@ -76,4 +76,16 @@ const addUser = async function (req, res) {
   }
 };
 
-module.exports = { adminLogin, adminPage, getUsers,deleteUser, addUser };
+const editUser = async function(req, res){
+  try{
+    const data = req.body;
+    const id = req.body.id;
+    const updatedUser = await userEdit(id, data)
+    return res.status(200).json({ message: "User updated successfully" });
+  }catch(error){
+    console.log(error);
+    return res.status(404).json({message: "Internal server error"})
+  }
+}
+
+module.exports = { adminLogin, adminPage, getUsers,deleteUser, addUser, editUser };
