@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import useGetFetch from "../../utils/useGetFetch";
 const tableHead = ["NAME", "EMAIL", "PHONE", "EDIT", "DELETE"];
 import useDeleteFetch from "../../utils/useDeleteFetch";
+import AddUser from "./AddUser";
+import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import usePostFetch from "../../utils/usePostFetch";
 
 const filterData = (searchInput, userList) => {
   const searchUser = userList.filter((item) =>
@@ -19,7 +22,12 @@ const Table = () => {
   const [searchInput, setSearchInput] = useState("");
   const [filterUser, setFilterUser] = useState([]);
   const [refresh, setRefresh] = useState(0)
+  const [openModal, setOpenModal] = useState(false)
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
   const fetchDelete = useDeleteFetch()
+  const fetchPost = usePostFetch()
   const userData = useUserData();
 
   const { fetchData } = useGetFetch();
@@ -50,6 +58,52 @@ const Table = () => {
       setFilterUser(userData);
     }
   }, [userData]);
+
+  // const handleClick=()=>{
+
+  // }
+  function onCloseModal() {
+    setOpenModal(false);
+    setEmail('');
+    setName('')
+    setPhone('')
+
+  }
+
+  const addUserSubmit = async()=>{
+    if (name.trim().length < 3) {
+      toast.error("Name should be minimum 3 letters");
+      return;
+    }
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!validEmail.test(email)) {
+      toast.error("Please enter a valid email");
+      return;
+    }
+    const phoneWithoutSpaces = phone.replace(/\s/g, ''); 
+    const validPhone = /^\d{10}$/;
+    if (!validPhone.test(phoneWithoutSpaces)) {
+      console.log(typeof phone);
+      toast.error("Please enter a valid 10-digit number without spaces");
+      return;
+    }
+    const data = {name, email, phone}
+    const endPoint = "/admin/add-user"
+    try {
+      const response = await fetchPost(data, endPoint)
+      console.log(response)
+      toast(response.data.message)
+      setOpenModal(false)
+      setEmail('')
+      setName('')
+      setPhone('')
+    setRefresh(prev =>prev+1)
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.message)
+    }
+  }
 
   if (userList == []) return <h1>Loading</h1>;
   return (
@@ -93,11 +147,11 @@ const Table = () => {
                     </svg>
                   </div>
                 </div>
-                <Link to="/add_user">
-                  <button className="py-2 px-4 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                {/* <Link to="/add_user"> */}
+                  <button onClick={() => setOpenModal(true)} className="py-2 px-4 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                     Add User
                   </button>
-                </Link>
+                {/* </Link> */}
               </div>
 
               <div className="overflow-hidden">
@@ -153,6 +207,56 @@ const Table = () => {
           </div>
         </div>
       </div>
+      <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Add New User</h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="email" value="Name" />
+              </div>
+              <TextInput
+                id="name"
+                placeholder="name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="email" value="Phone" />
+              </div>
+              <TextInput
+                id="text"
+                placeholder="phone number"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="email" value="Email" />
+              </div>
+              <TextInput
+                id="email"
+                placeholder="name@company.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+              />
+            </div>
+            
+            
+            <div className="w-full">
+              <Button onClick={addUserSubmit}>Add new user</Button>
+            </div>
+            
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

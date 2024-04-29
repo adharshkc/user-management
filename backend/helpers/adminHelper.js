@@ -33,4 +33,19 @@ const userSoftDelete = async function (delUser) {
   }
 };
 
-module.exports = { findAdmin, userDelete, userSoftDelete };
+const addUserByAdmin = async function(data){
+  try {
+    const { name, email, phone } = data;
+    const newUser = await User.create({
+      name: name,
+      email: email,
+      phone: phone,
+    });
+    return newUser;
+  
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = { findAdmin, userDelete, userSoftDelete, addUserByAdmin };

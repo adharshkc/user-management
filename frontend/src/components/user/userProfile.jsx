@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
+
 import { dummyImageUrl } from "../../constants/constant.js";
-import { useEffect, useState } from "react";
 
 const ProfileCard = () => {
   

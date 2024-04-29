@@ -1,8 +1,7 @@
-const { findAdmin, userDelete,userSoftDelete } = require("../helpers/adminHelper");
+const { findAdmin, userDelete,userSoftDelete, addUserByAdmin } = require("../helpers/adminHelper");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/jwtUtils");
-const { emit } = require("nodemon");
-const { allUsers } = require("../helpers/userHelper");
+const { allUsers, findUser } = require("../helpers/userHelper");
 
 const adminLogin = async (req, res, next) => {
   console.log(req.body);
@@ -57,5 +56,24 @@ const deleteUser = async (req, res, next)=>{
 
   }
 }
+const addUser = async function (req, res) {
+  try {
+    const data = req.body;
+    console.log("data",data)
+    const existingUser = await findUser(req.body.email)
+    if(existingUser){
+      return res.status(400).json({message: "User already exist"})
+    }else{
+      const user = await addUserByAdmin(data);
+      console.log("user",user)
+      return res.status(200).json({ message: "User added successfully" });
 
-module.exports = { adminLogin, adminPage, getUsers,deleteUser };
+    }
+
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({message: "Internal server error"})
+  }
+};
+
+module.exports = { adminLogin, adminPage, getUsers,deleteUser, addUser };
