@@ -2,20 +2,12 @@ import TableBody from "./TableBody";
 import useUserData from "../../utils/useUserData";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { Link } from "react-router-dom";
 import useGetFetch from "../../utils/useGetFetch";
 const tableHead = ["NAME", "EMAIL", "PHONE", "EDIT", "DELETE"];
 import useDeleteFetch from "../../utils/useDeleteFetch";
-import AddUser from "./AddUser";
-import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Label, Modal, TextInput } from "flowbite-react";
 import usePostFetch from "../../utils/usePostFetch";
 
-const filterData = (searchInput, userList) => {
-  const searchUser = userList.filter((item) =>
-    item.name.toLowerCase().includes(searchInput.toLowerCase())
-  );
-  return searchUser;
-};
 
 const Table = () => {
   const [userList, setUserList] = useState([]);
@@ -59,9 +51,15 @@ const Table = () => {
     }
   }, [userData]);
 
-  // const handleClick=()=>{
+  const searchUser = async (e)=>{
+    const endPoint = `/admin/users?search=${e}`
+    const response = await fetchData(endPoint)
+    console.log(response)
+    setFilterUser(response.data.data)
 
-  // }
+  }
+  
+ 
   function onCloseModal() {
     setOpenModal(false);
     setEmail('');
@@ -128,9 +126,8 @@ const Table = () => {
                     id="hs-table-with-pagination-search"
                     value={searchInput}
                     onChange={(e) => {
-                      setSearchInput(e.target.value);
-                      const data = filterData(e.target.value, userList);
-                      setFilterUser(data);
+                      setSearchInput(e.target.value)
+                      searchUser(e.target.value)
                     }}
                     className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                     placeholder="Search for items"

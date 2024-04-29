@@ -1,4 +1,4 @@
-const { findAdmin, userDelete,userSoftDelete, addUserByAdmin, userEdit } = require("../helpers/adminHelper");
+const { findAdmin, userDelete,userSoftDelete, addUserByAdmin, userEdit, userSearch } = require("../helpers/adminHelper");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/jwtUtils");
 const { allUsers, findUser } = require("../helpers/userHelper");
@@ -36,6 +36,12 @@ const adminPage = (req, res, next) => {
 
 const getUsers = async (req, res, next) => {
   try {
+    if(req.query.search){
+      const result = await userSearch(req.query.search);
+      console.log(result)
+      return res.status(200).json({data: result})
+
+    }
     const users = await allUsers();
     return res.status(200).json({ data: users });
   } catch (error) {

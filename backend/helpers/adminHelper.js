@@ -67,4 +67,19 @@ const userEdit = async function (userId, data) {
   }
 };
 
-module.exports = { findAdmin, userDelete, userSoftDelete,userEdit, addUserByAdmin };
+
+const userSearch = async function(data){
+  try {
+    const users = await User.find({
+      $or:[
+        { name: { $regex: data, $options: 'i' } }, // Case-insensitive search for name
+        { email: { $regex: data, $options: 'i' } } // Case-insensitive search for email
+      ]
+    });
+    return users;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = { findAdmin, userDelete, userSoftDelete,userEdit, addUserByAdmin, userSearch };
