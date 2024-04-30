@@ -7,13 +7,11 @@ const useGetFetch =  function () {
     const fetchData = async function(endPoint){
 
         try {
-          console.log("server",serverUrl + endPoint);
           const storedData = localStorage.getItem("user")
           const data = JSON.parse(storedData)
           // if(data){
 
             const token = data?.token;
-            console.log("token",token)
             const response = await axios.get(serverUrl + endPoint, {
               headers: {
                 Authorization: `Bearer ${token}`,

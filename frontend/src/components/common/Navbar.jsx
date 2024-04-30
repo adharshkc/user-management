@@ -20,8 +20,6 @@ export default function Navbar(props) {
   let { logoutUser} = useContext(UserContext)
   let data = localStorage.getItem("user")
   let username = JSON.parse(data)
-  console.log(username)
-  // setUser(username)
   const navigate = useNavigate()
   const logout = ()=>{
     logoutUser()

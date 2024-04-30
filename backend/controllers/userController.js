@@ -73,16 +73,7 @@ const addUser = async function (req, res) {
   }
 };
 
-const editUser = async function (req, res) {
-  try {
-    const data = req.body;
-    const userId = req.params.id;//dont pass id through url
-    const user = await userEdit(userId, data);
-    return res.status(200).json({ message: "User updated successfully" });
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 
 const getUser = async function (req, res) {
   console.log("edit");
@@ -97,17 +88,7 @@ const getUser = async function (req, res) {
   }
 };
 
-const deleteUser = async function (req, res) {
-  try {
-    const id = req.params.id;
-    const deletedUser = await userDelete(id);
-    return res
-      .status(200)
-      .json({ message: "User created successfully" });
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 
 const getHome = async function(req, res){
   try {
@@ -133,9 +114,7 @@ module.exports = {
   loginUser,
   getAlUser,
   addUser,
-  editUser,
   getUser,
-  deleteUser,
   getHome,
   getAdmin
 };

@@ -1,5 +1,4 @@
 import TableBody from "./TableBody";
-import useUserData from "../../utils/useUserData";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useGetFetch from "../../utils/useGetFetch";
@@ -30,7 +29,7 @@ const Table = () => {
     try {
       const response = await fetchData(`/admin/users?page=${currentPage}&pageSize=10`);
       const users = response.data.data.users;
-      console.log(response)
+      console.log(users)
       setUserList(users);
       setFilterUser(users);
       setTotalPages(response.data.data.totalPages)
@@ -47,22 +46,30 @@ const Table = () => {
     getData();
   }, [refresh, currentPage]);
 
-  useEffect(() => {
-    return () => {
-      if (cancelToken) {
-        cancelToken.cancel("component unmount");
-      }
-    };
-  },[]);
+  // useEffect(() => {
+  //   return () => {
+  //     if (cancelToken) {
+  //       cancelToken.cancel("component unmount");
+  //     }
+  //   };
+  // },[]);
 
   const searchUser = async (e) => {
-    if (cancelToken) {
-      cancelToken.cancel("Request canceled due to new search");
-    }
+    // if (cancelToken) {
+    //   cancelToken.cancel("Request canceled due to new search");
+    // }
     const endPoint = `/admin/users?search=${e}`;
     const response = await fetchData(endPoint);
-    console.log(response);
-    setFilterUser(response.data.data);
+    if(e===''){
+      console.log("empty")
+      setFilterUser(response.data.data.users)
+    }else{
+
+      console.log(response.data.data)
+      setUserList(response.data.data.users)
+      setFilterUser(response.data.data);
+      console.log(filterUser)
+    }
   };
 
   function onCloseModal() {
@@ -90,7 +97,6 @@ const Table = () => {
     const phoneWithoutSpaces = phone.replace(/\s/g, "");
     const validPhone = /^\d{10}$/;
     if (!validPhone.test(phoneWithoutSpaces)) {
-      console.log(typeof phone);
       toast.error("Please enter a valid 10-digit number without spaces");
       return;
     }
@@ -114,8 +120,8 @@ const Table = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
-  if (userList == []) return <h1>Loading</h1>;
+  console.log("filter",filterUser)
+  if (filterUser == undefined) return <h1>Loading</h1>;
   return (
     <>
       <ToastContainer />
@@ -260,35 +266,7 @@ const Table = () => {
         </Modal.Body>
       </Modal>
       <div className=" my-5 flex justify-center">
-        {/* <nav aria-label="Page navigation example">
-          <ul className="inline-flex -space-x-px text-sm">
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-black bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Previous
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                1
-              </a>
-            </li>
-           
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav> */}
+        
         <div className="inline-flex -space-x-px text-sm">
 
          {Array.from({ length: totalPages }, (_, index) => (

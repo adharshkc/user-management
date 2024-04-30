@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-// import WeatherCard from "./WeatherCard";
 import { useNavigate } from "react-router-dom";
 import ProfileCard from "./userProfile";
 
@@ -29,7 +28,6 @@ const Body = () => {
   return (
     <div className="flex justify-center">
       <ProfileCard />
-      {/* <WeatherCard /> */}
     </div>
   );
 };

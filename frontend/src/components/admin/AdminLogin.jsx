@@ -45,7 +45,6 @@ const AdminLogin = () => {
       localStorage.setItem("user", JSON.stringify(adminData))
       navigate('/admin')
     } catch (error) {
-      console.log(error);
       throw error.response.data.message;
     }
   };
