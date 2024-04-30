@@ -36,13 +36,15 @@ const adminPage = (req, res, next) => {
 
 const getUsers = async (req, res, next) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
     if(req.query.search){
       const result = await userSearch(req.query.search);
       console.log(result)
       return res.status(200).json({data: result})
 
     }
-    const users = await allUsers();
+    const users = await allUsers(page, pageSize);
     return res.status(200).json({ data: users });
   } catch (error) {
     return res.status(400).json({ error: "Internal server error" });

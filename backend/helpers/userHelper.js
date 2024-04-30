@@ -29,10 +29,17 @@ const createUser = async function (data) {
   }
 };
 
-const allUsers = async function () {
+const allUsers = async function (page =1, pageSize = 10) {
   try {
-    const users = await User.find();
-    return users;
+     const users = await User.find().skip((page-1)*pageSize).limit(pageSize)
+     const totalUsers = await User.countDocuments();
+     
+    return {
+      users,
+      totalUsers,
+      totalPages:Math.ceil(totalUsers/pageSize),
+      currentPage: page
+    }
   } catch (error) {
     console.log(error);
   }

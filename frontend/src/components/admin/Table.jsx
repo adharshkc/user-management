@@ -8,78 +8,76 @@ import useDeleteFetch from "../../utils/useDeleteFetch";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import usePostFetch from "../../utils/usePostFetch";
 
-
 const Table = () => {
   const [userList, setUserList] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [filterUser, setFilterUser] = useState([]);
-  const [refresh, setRefresh] = useState(0)
-  const [openModal, setOpenModal] = useState(false)
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [cancelToken, setCancelToken] = useState("")
-  const fetchDelete = useDeleteFetch()
-  const fetchPost = usePostFetch()
+  const [refresh, setRefresh] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [cancelToken, setCancelToken] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0)
+  const fetchDelete = useDeleteFetch();
+  const fetchPost = usePostFetch();
   // const userData = useUserData();
 
   const { fetchData } = useGetFetch();
 
   const getData = async function () {
     try {
-      const response = await fetchData("/admin/users");
-      const users = response.data.data;
+      const response = await fetchData(`/admin/users?page=${currentPage}&pageSize=10`);
+      const users = response.data.data.users;
+      console.log(response)
       setUserList(users);
       setFilterUser(users);
+      setTotalPages(response.data.data.totalPages)
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteFun = async(userId) => {
-    
-    const response = await fetchDelete({id:userId}, '/admin/user-delete')
-    setRefresh(prev =>prev+1)
+  const deleteFun = async (userId) => {
+    const response = await fetchDelete({ id: userId }, "/admin/user-delete");
+    setRefresh((prev) => prev + 1);
   };
   useEffect(() => {
     getData();
-  }, [refresh]);
+  }, [refresh, currentPage]);
 
-  useEffect(()=>{
-    return () =>{
-      if(cancelToken){
-        cancelToken.cancel("component unmount")
+  useEffect(() => {
+    return () => {
+      if (cancelToken) {
+        cancelToken.cancel("component unmount");
       }
-    }
-  })
+    };
+  },[]);
 
-  const searchUser = async (e)=>{
+  const searchUser = async (e) => {
     if (cancelToken) {
-      cancelToken.cancel('Request canceled due to new search');
+      cancelToken.cancel("Request canceled due to new search");
     }
-    const endPoint = `/admin/users?search=${e}`
-    const response = await fetchData(endPoint)
-    console.log(response)
-    setFilterUser(response.data.data)
+    const endPoint = `/admin/users?search=${e}`;
+    const response = await fetchData(endPoint);
+    console.log(response);
+    setFilterUser(response.data.data);
+  };
 
-  }
-  
- 
   function onCloseModal() {
     setOpenModal(false);
-    setEmail('');
-    setName('')
-    setPhone('')
-
+    setEmail("");
+    setName("");
+    setPhone("");
   }
 
-  function onRefresh(){
-    setRefresh(prev =>prev+1)
-    toast("user updated successfully")
-
+  function onRefresh() {
+    setRefresh((prev) => prev + 1);
+    toast("user updated successfully");
   }
 
-  const addUserSubmit = async()=>{
+  const addUserSubmit = async () => {
     if (name.trim().length < 3) {
       toast.error("Name should be minimum 3 letters");
       return;
@@ -89,30 +87,33 @@ const Table = () => {
       toast.error("Please enter a valid email");
       return;
     }
-    const phoneWithoutSpaces = phone.replace(/\s/g, ''); 
+    const phoneWithoutSpaces = phone.replace(/\s/g, "");
     const validPhone = /^\d{10}$/;
     if (!validPhone.test(phoneWithoutSpaces)) {
       console.log(typeof phone);
       toast.error("Please enter a valid 10-digit number without spaces");
       return;
     }
-    const data = {name, email, phone}
-    const endPoint = "/admin/add-user"
+    const data = { name, email, phone };
+    const endPoint = "/admin/add-user";
     try {
-      const response = await fetchPost(data, endPoint)
-      console.log(response)
-      toast(response.data.message)
-      setOpenModal(false)
-      setEmail('')
-      setName('')
-      setPhone('')
-    setRefresh(prev =>prev+1)
-
+      const response = await fetchPost(data, endPoint);
+      console.log(response);
+      toast(response.data.message);
+      setOpenModal(false);
+      setEmail("");
+      setName("");
+      setPhone("");
+      setRefresh((prev) => prev + 1);
     } catch (error) {
-      console.log(error)
-      toast.error(error.response.data.message)
+      console.log(error);
+      toast.error(error.response.data.message);
     }
-  }
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   if (userList == []) return <h1>Loading</h1>;
   return (
@@ -131,8 +132,8 @@ const Table = () => {
                     id="hs-table-with-pagination-search"
                     value={searchInput}
                     onChange={(e) => {
-                      setSearchInput(e.target.value)
-                      searchUser(e.target.value)
+                      setSearchInput(e.target.value);
+                      searchUser(e.target.value);
                     }}
                     className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                     placeholder="Search for items"
@@ -156,9 +157,12 @@ const Table = () => {
                   </div>
                 </div>
                 {/* <Link to="/add_user"> */}
-                  <button onClick={() => setOpenModal(true)} className="py-2 px-4 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                    Add User
-                  </button>
+                <button
+                  onClick={() => setOpenModal(true)}
+                  className="py-2 px-4 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                >
+                  Add User
+                </button>
                 {/* </Link> */}
               </div>
 
@@ -201,17 +205,6 @@ const Table = () => {
                   ))}
                 </table>
               </div>
-              {/* <div className="py-1 px-4">
-                <nav className="flex items-center space-x-1">
-                  <button
-                    type="button"
-                    className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
-                  >
-                    <span aria-hidden="true">«</span>
-                    <span className="sr-only">Previous</span>
-                  </button>
-                </nav>
-              </div> */}
             </div>
           </div>
         </div>
@@ -220,7 +213,9 @@ const Table = () => {
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Add New User</h3>
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Add New User
+            </h3>
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="email" value="Name" />
@@ -257,15 +252,57 @@ const Table = () => {
                 required
               />
             </div>
-            
-            
+
             <div className="w-full">
               <Button onClick={addUserSubmit}>Add new user</Button>
             </div>
-            
           </div>
         </Modal.Body>
       </Modal>
+      <div className=" my-5 flex justify-center">
+        {/* <nav aria-label="Page navigation example">
+          <ul className="inline-flex -space-x-px text-sm">
+            <li>
+              <a
+                href="#"
+                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-black bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Previous
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                1
+              </a>
+            </li>
+           
+            <li>
+              <a
+                href="#"
+                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav> */}
+        <div className="inline-flex -space-x-px text-sm">
+
+         {Array.from({ length: totalPages }, (_, index) => (
+           <button
+           className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+           key={index}
+           disabled={index + 1 === currentPage}
+           onClick={() => handlePageChange(index + 1)}
+           >
+            {index + 1}
+          </button>
+        ))}
+        </div>
+      </div>
     </>
   );
 };
