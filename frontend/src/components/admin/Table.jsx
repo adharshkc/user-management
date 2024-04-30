@@ -18,9 +18,10 @@ const Table = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [cancelToken, setCancelToken] = useState("")
   const fetchDelete = useDeleteFetch()
   const fetchPost = usePostFetch()
-  const userData = useUserData();
+  // const userData = useUserData();
 
   const { fetchData } = useGetFetch();
 
@@ -43,15 +44,19 @@ const Table = () => {
   useEffect(() => {
     getData();
   }, [refresh]);
-  useEffect(() => {
-    console.log("useEffect");
-    if (userData) {
-      setUserList(userData);
-      setFilterUser(userData);
+
+  useEffect(()=>{
+    return () =>{
+      if(cancelToken){
+        cancelToken.cancel("component unmount")
+      }
     }
-  }, [userData]);
+  })
 
   const searchUser = async (e)=>{
+    if (cancelToken) {
+      cancelToken.cancel('Request canceled due to new search');
+    }
     const endPoint = `/admin/users?search=${e}`
     const response = await fetchData(endPoint)
     console.log(response)
