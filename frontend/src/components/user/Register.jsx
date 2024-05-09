@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {UserContext} from "../../context/UserContext"
 import usePostFetch from "../../utils/usePostFetch";
 
 const Register = () => {
@@ -10,21 +9,25 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const { loginUser} = useContext(UserContext)
   const navigate = useNavigate()
   const fetchPost = usePostFetch()
 
-  useEffect(()=>{
-    const token = localStorage.getItem("token");
-    if(token){
-      navigate('/home')
-    }
-  })
+  // useEffect(()=>{
+  //   const token = localStorage.getItem("token");
+  //   if(token){
+  //     navigate('/home')
+  //   }
+  // })
 
   const validateForm = async(e) => {
     e.preventDefault();
     console.log(typeof phone);
     console.log(typeof phone);
+    if (!/^[a-zA-Z]+$/.test(name.trim())) {
+      toast.error("Name should only contain letters");
+      return;
+    }
+    
     if (name.trim().length < 3) {
       toast.error("Name should be minimum 3 letters");
       return;

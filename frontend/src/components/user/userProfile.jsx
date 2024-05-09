@@ -5,8 +5,10 @@ const ProfileCard = () => {
   
 
    const data = localStorage.getItem("user")
-    console.log(data)
-   let {name, email, phone} = JSON.parse(data)
+   let user = JSON.parse(data)
+   const name = user?.name;
+   const email = user?.email;
+   const phone = user?.phone;
 
   return (
     <div className="m-10 w-96 max-w-sm">

@@ -64,11 +64,8 @@ const Table = () => {
       console.log("empty")
       setFilterUser(response.data.data.users)
     }else{
-
-      console.log(response.data.data)
       setUserList(response.data.data.users)
       setFilterUser(response.data.data);
-      console.log(filterUser)
     }
   };
 
@@ -85,6 +82,11 @@ const Table = () => {
   }
 
   const addUserSubmit = async () => {
+    if (!/^[a-zA-Z]+$/.test(name.trim())) {
+      toast.error("Name should only contain letters");
+      return;
+    }
+    
     if (name.trim().length < 3) {
       toast.error("Name should be minimum 3 letters");
       return;

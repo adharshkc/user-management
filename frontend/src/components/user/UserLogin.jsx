@@ -33,7 +33,6 @@ const UserLogin = () => {
     const endPoint = "/user/login";
     try {
       const response = await fetchPost(data, endPoint);
-      console.log(response.data.user.name)
       dispatch(
         addUser({
           name: response.data.user.name,

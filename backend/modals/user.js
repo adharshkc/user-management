@@ -15,10 +15,6 @@ const userSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  isAdmin: {
-    type: String,
-    default: "user",
-  },
   password: {
     type: String,
   },

@@ -2,7 +2,6 @@ import { Fragment, useContext, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from 'react-router-dom'
-import {UserContext} from '../../context/UserContext'
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -17,12 +16,10 @@ function classNames(...classes) {
 
 export default function Navbar(props) {
   const [user, setUser] = useState()
-  let { logoutUser} = useContext(UserContext)
   let data = localStorage.getItem("user")
   let username = JSON.parse(data)
   const navigate = useNavigate()
   const logout = ()=>{
-    logoutUser()
     localStorage.removeItem('user');
     if(props.role ==="user"){
       navigate('/login')
