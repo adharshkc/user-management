@@ -12,12 +12,6 @@ const Register = () => {
   const navigate = useNavigate()
   const fetchPost = usePostFetch()
 
-  // useEffect(()=>{
-  //   const token = localStorage.getItem("token");
-  //   if(token){
-  //     navigate('/home')
-  //   }
-  // })
 
   const validateForm = async(e) => {
     e.preventDefault();
