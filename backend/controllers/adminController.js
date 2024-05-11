@@ -40,7 +40,6 @@ const getUsers = async (req, res, next) => {
     const pageSize = parseInt(req.query.pageSize) || 10;
     if(req.query.search){
       const result = await userSearch(req.query.search);
-      console.log(result)
       return res.status(200).json({data: result})
 
     }
@@ -67,13 +66,11 @@ const deleteUser = async (req, res, next)=>{
 const addUser = async function (req, res) {
   try {
     const data = req.body;
-    console.log("data",data)
     const existingUser = await findUser(req.body.email)
     if(existingUser){
       return res.status(400).json({message: "User already exist"})
     }else{
       const user = await addUserByAdmin(data);
-      console.log("user",user)
       return res.status(200).json({ message: "User added successfully" });
 
     }
