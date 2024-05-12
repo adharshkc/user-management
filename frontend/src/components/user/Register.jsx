@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import usePostFetch from "../../utils/usePostFetch";
+import useGetFetch from "../../utils/useGetFetch";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -11,8 +12,23 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate()
   const fetchPost = usePostFetch()
-
-
+  const fetchData = useGetFetch()
+  const getData = async function(){
+    try {
+      const response = await fetchData('/user/home')
+      console.log("response", response)
+      if(!response){
+        navigate("/login")
+      }
+      navigate("/")
+    } catch (error) {
+      console.log("error", error)
+      navigate("/login")
+     } 
+  }
+  useEffect(()=>{
+     getData()
+  }, [])
   const validateForm = async(e) => {
     e.preventDefault();
     console.log(typeof phone);
