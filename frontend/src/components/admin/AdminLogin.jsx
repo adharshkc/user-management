@@ -19,7 +19,6 @@ const AdminLogin = () => {
       }
       navigate("/admin")
     } catch (error) {
-      console.log("error", error)
       navigate("/admin/login")
      } 
   }

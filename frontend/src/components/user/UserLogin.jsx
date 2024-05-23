@@ -15,13 +15,11 @@ const UserLogin = () => {
   const getData = async function(){
     try {
       const response = await fetchData('/user/home')
-      console.log("response", response)
       if(!response){
         navigate("/login")
       }
       navigate("/")
     } catch (error) {
-      console.log("error", error)
       navigate("/login")
      } 
   }
@@ -47,7 +45,6 @@ const UserLogin = () => {
         token: response.data.token
       }
       localStorage.setItem("user", JSON.stringify(userData))
-      console.log("hello")
       navigate('/')
 
     } catch (error) {

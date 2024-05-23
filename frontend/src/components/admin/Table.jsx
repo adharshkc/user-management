@@ -16,7 +16,6 @@ const Table = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [cancelToken, setCancelToken] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0)
   const fetchDelete = useDeleteFetch();
@@ -29,7 +28,6 @@ const Table = () => {
     try {
       const response = await fetchData(`/admin/users?page=${currentPage}&pageSize=10`);
       const users = response.data.data.users;
-      console.log(users)
       setUserList(users);
       setFilterUser(users);
       setTotalPages(response.data.data.totalPages)
@@ -46,22 +44,12 @@ const Table = () => {
     getData();
   }, [refresh, currentPage]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (cancelToken) {
-  //       cancelToken.cancel("component unmount");
-  //     }
-  //   };
-  // },[]);
+
 
   const searchUser = async (e) => {
-    // if (cancelToken) {
-    //   cancelToken.cancel("Request canceled due to new search");
-    // }
     const endPoint = `/admin/users?search=${e}`;
     const response = await fetchData(endPoint);
     if(e===''){
-      console.log("empty")
       setFilterUser(response.data.data.users)
     }else{
       setUserList(response.data.data.users)
@@ -106,7 +94,6 @@ const Table = () => {
     const endPoint = "/admin/add-user";
     try {
       const response = await fetchPost(data, endPoint);
-      console.log(response);
       toast(response.data.message);
       setOpenModal(false);
       setEmail("");
@@ -114,7 +101,6 @@ const Table = () => {
       setPhone("");
       setRefresh((prev) => prev + 1);
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };
@@ -122,7 +108,6 @@ const Table = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-  console.log("filter",filterUser)
   if (filterUser == undefined) return <h1>Loading</h1>;
   return (
     <>

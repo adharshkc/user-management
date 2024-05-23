@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import {  useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,13 +16,11 @@ const Register = () => {
   const getData = async function(){
     try {
       const response = await fetchData('/user/home')
-      console.log("response", response)
       if(!response){
         navigate("/login")
       }
       navigate("/")
     } catch (error) {
-      console.log("error", error)
       navigate("/login")
      } 
   }
@@ -31,8 +29,6 @@ const Register = () => {
   }, [])
   const validateForm = async(e) => {
     e.preventDefault();
-    console.log(typeof phone);
-    console.log(typeof phone);
     if (!/^[a-zA-Z]+$/.test(name.trim())) {
       toast.error("Name should only contain letters");
       return;
@@ -50,7 +46,6 @@ const Register = () => {
     const phoneWithoutSpaces = phone.replace(/\s/g, ''); 
     const validPhone = /^\d{10}$/;
     if (!validPhone.test(phoneWithoutSpaces)) {
-      console.log(typeof phone);
       toast.error("Please enter a valid 10-digit number without spaces");
       return;
     }
@@ -64,7 +59,6 @@ const Register = () => {
       const data = {name, email, phone, password}
       const endPoint = '/user/register'
       const response = await fetchPost(data, endPoint)
-     console.log("name",response.data.token)
 
      const userData = {
       name: response.data.data.name,
@@ -75,7 +69,6 @@ const Register = () => {
     localStorage.setItem("user", JSON.stringify(userData))
     navigate("/")
     } catch (error) {
-      console.log(error.response.data.error)
       toast.error(error.response.data.error)
     }
 

@@ -15,7 +15,6 @@ function classNames(...classes) {
 }
 
 export default function Navbar(props) {
-  const [user, setUser] = useState()
   let data = localStorage.getItem("user")
   let username = JSON.parse(data)
   const navigate = useNavigate()

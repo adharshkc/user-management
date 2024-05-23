@@ -12,12 +12,10 @@ const Body = () => {
   const fetchGetData = async function () {
    try {
      const response = await fetchData("/user/home");
-     console.log("hello",response);
      if(!response){
        navigate("/login")
      }
    } catch (error) {
-    console.log(error)
       navigate("/login")
    }
   };
